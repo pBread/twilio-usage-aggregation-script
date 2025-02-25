@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": ""
+    "start": "node index.js"
   },
   "license": "MIT",
   "dependencies": {

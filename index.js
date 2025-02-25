@@ -1,11 +1,17 @@
 import fs from "fs";
 import { createObjectCsvWriter } from "csv-writer";
+import twilio from "twilio";
 
-console.log("hello world");
+async function main() {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID_1;
+  const authToken = process.env.TWILIO_AUTH_TOKEN_1;
+  const client = twilio(accountSid, authToken);
 
-function main() {}
+  await aggregateUsageToCSV(client, accountSid);
+}
 
-async function aggregateUsageToCSV(client, outputPath = "local/usage.csv") {
+async function aggregateUsageToCSV(client, accountSid) {
+  const outputPath = `local/${accountSid}.csv`;
   // Define the CSV writer with headers
   const csvWriter = createObjectCsvWriter({
     path: outputPath,
