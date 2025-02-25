@@ -9,6 +9,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "csv-writer": "^1.6.0"
+    "csv-writer": "^1.6.0",
+    "twilio": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/twilio": "^3.19.3"
   }
 }
