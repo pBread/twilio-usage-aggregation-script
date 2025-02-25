@@ -1,5 +1,7 @@
-import fs from "fs";
 import { createObjectCsvWriter } from "csv-writer";
+import "dotenv/config";
+import fs from "fs";
+import path from "path";
 import twilio from "twilio";
 
 async function main() {
@@ -7,11 +9,21 @@ async function main() {
   const authToken = process.env.TWILIO_AUTH_TOKEN_1;
   const client = twilio(accountSid, authToken);
 
-  await aggregateUsageToCSV(client, accountSid);
+  // Check if local directory exists and create it if it doesn't
+  const localDir = path.join(process.cwd(), "local");
+  if (!fs.existsSync(localDir)) {
+    console.log("Creating local/ directory...");
+    fs.mkdirSync(localDir, { recursive: true });
+  }
+
+  const outputPath = path.join(localDir, `${accountSid}.csv`);
+
+  await aggregateUsageToCSV(client, outputPath);
 }
 
-async function aggregateUsageToCSV(client, accountSid) {
-  const outputPath = `local/${accountSid}.csv`;
+async function aggregateUsageToCSV(client, outputPath) {
+  console.log(`Will write data to: ${outputPath}`);
+
   // Define the CSV writer with headers
   const csvWriter = createObjectCsvWriter({
     path: outputPath,
@@ -117,12 +129,18 @@ async function aggregateUsageToCSV(client, accountSid) {
   return totalRecords;
 }
 
-main();
-
-/****************************************************
- Helpers
-****************************************************/
+/**
+ * Formats a date object to YYYY-MM-DD string
+ * @param {Date} date - Date object to format
+ * @returns {string} Formatted date string
+ */
 function formatDate(date) {
   const d = new Date(date);
   return d.toISOString().split("T")[0]; // Returns YYYY-MM-DD
 }
+
+// Run the main function
+main().catch((err) => {
+  console.error("Error:", err);
+  process.exit(1);
+});
