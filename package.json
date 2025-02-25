@@ -1,0 +1,14 @@
+{
+  "name": "usage-aggregator",
+  "author": "",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": ""
+  },
+  "license": "MIT",
+  "dependencies": {
+    "csv-writer": "^1.6.0"
+  }
+}
