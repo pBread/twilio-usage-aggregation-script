@@ -40,7 +40,6 @@ async function aggregateUsageToCSV(client, outputPath) {
       { id: "price", title: "Price" },
       { id: "priceUnit", title: "Price Unit" },
     ],
-    append: false, // Start with a new file
   });
 
   // Track the current month to detect changes
@@ -48,12 +47,6 @@ async function aggregateUsageToCSV(client, outputPath) {
   let currentYear = null;
   let monthlyRecords = [];
   let totalRecords = 0;
-
-  // Create headers first
-  await csvWriter.writeRecords([]);
-
-  // Now switch to append mode for subsequent writes
-  csvWriter.options.append = true;
 
   console.log("Fetching usage records...");
 
